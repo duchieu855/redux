@@ -1,6 +1,6 @@
 // import React from 'react'
 
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, Route } from "react-router-dom";
 import Header from "../header/Header";
 import Container from "../container/Container";
 
@@ -14,7 +14,9 @@ const HomePage = () => {
 			</div>
 			<div className="my-4">
 				{/* <Container /> */}
+				<Navigate to="/container" replace={true} />
 				<Outlet />
+
 			</div>
 		</>
 	);

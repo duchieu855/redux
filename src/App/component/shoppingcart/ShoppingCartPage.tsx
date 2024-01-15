@@ -5,7 +5,7 @@ import { useAppSelector } from "../../typescript/hook";
 // type Props = {}
 
 const ShoppingCartPage = () => {
-	const dataProducts = useAppSelector((state) => state.shoppingCart);
+	const dataProducts = useAppSelector((state) => state.productList);
 	const total = dataProducts?.reduce(
 		(total, cur) => cur.price * cur.quantity + total,
 		0
@@ -33,7 +33,6 @@ const ShoppingCartPage = () => {
 							<div className="text-red-500 px-2 py-1 rounded-md bg-white  flex justify-evenly space-x-3">
 								<span>{item.title}</span>
 								<span>${item.price}</span>
-								<span>Total: {item.quantity}</span>
 							</div>
 						</div>
 					);

@@ -1,12 +1,14 @@
 // import React from 'react'
 
 // import axios from "axios";
-import { useState } from "react";
-import { useAppDispatch } from "../../typescript/hook";
-import { addToCart } from "../shoppingcart/ShoppingCartSlice";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../typescript/hook";
 import { incrementByAmount } from "./counter/counterSlice";
 import { data } from "./counter/data";
 import classNames from "classnames";
+import { addToCart } from "../shoppingcart/slice/product-list-slice";
+import { fetchData } from "./slice/listSlice";
+import { RootState } from "@reduxjs/toolkit/query";
 
 // interface StyleItemData {
 // 	albumId: number;
@@ -17,37 +19,20 @@ import classNames from "classnames";
 // }
 
 const Container = () => {
-	const [dataProducts, setDataProducts] = useState(data);
-	// console.log(dataProducts);
-
-	// useEffect(() => {
-	// 	(async () => {
-	// 		try {
-	// 			const res = await axios.get("http://localhost:3000/api/products");
-
-	// 			setData(res.data);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	})();
-	// });
+	const dispatch = useAppDispatch();
+	const state = useAppSelector((state) => state.list)
+	useEffect(() => {
+		dispatch(fetchData())
+	}, [])
 
 	const handleClick = (id: number) => {
-		const indexProduct = dataProducts.findIndex((i) => i.id === id);
-		const quantity = dataProducts[indexProduct].quantity;
-		// console.log(quantity);
-		if (quantity > 0) {
-			dataProducts[indexProduct].quantity -= 1;
-			setDataProducts((preData) => {
-				// console.log([dataProducts, preData]);
-				return [...preData];
-			});
-		}
+		const indexProduct = state.findIndex((i) => i.id === id);
+		const quantity = state[indexProduct].quantity;
+
 	};
-	const dispatch = useAppDispatch();
 	return (
 		<div className="grid grid-flow-row grid-cols-6 gap-x-2 gap-y-4 w-[1200px] mx-auto">
-			{dataProducts.map((item) => (
+			{state.map((item) => (
 				<div
 					key={item.id}
 					className="p-2 bg-orange-400 relative flex flex-col space-y-3 items-center rounded-lg"
