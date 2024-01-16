@@ -1,36 +1,36 @@
 // import React from 'react'
 
 // import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../typescript/hook";
 import { addToCart } from "../shoppingcart/ShoppingCartSlice";
 import { incrementByAmount } from "./counter/counterSlice";
-import { data } from "./counter/data";
 import classNames from "classnames";
+import axios from "axios";
 
-// interface StyleItemData {
-// 	albumId: number;
-// 	id: number;
-// 	title: string;
-// 	url: string;
-// 	thumbnailUrl: string;
-// }
+interface StyleItemData {
+	id: number;
+	title: string;
+	thumbnailUrl: string;
+	price: number;
+	quantity: number;
+}
 
 const Container = () => {
-	const [dataProducts, setDataProducts] = useState(data);
-	// console.log(dataProducts);
+	const [dataProducts, setDataProducts] = useState<StyleItemData[]>([]);
+	console.log(dataProducts);
 
-	// useEffect(() => {
-	// 	(async () => {
-	// 		try {
-	// 			const res = await axios.get("http://localhost:3000/api/products");
+	useEffect(() => {
+		(async () => {
+			try {
+				const res = await axios.get("http://localhost:3000/api/products/");
 
-	// 			setData(res.data);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	})();
-	// });
+				setDataProducts(res.data);
+			} catch (err) {
+				console.log(err);
+			}
+		})();
+	}, []);
 
 	const handleClick = (id: number) => {
 		const indexProduct = dataProducts.findIndex((i) => i.id === id);
