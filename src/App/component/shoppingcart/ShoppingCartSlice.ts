@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface StyleProduct {
         	id: number;
@@ -25,6 +26,36 @@ export const shoppingCartSlice = createSlice(
                     return [...state,product]
                 }
             }
+        },
+        extraReducers: (builder)=> {
+            builder.addCase(fetchProducts.fulfilled , (state,action) =>{
+                return state = action.payload
+            })
+        }
+    }
+)
+
+export const addProduct = createAsyncThunk(
+    "shoppingCart/addProduct", 
+    async (product : StyleProduct)=>{
+        try {
+            
+            const newProduct = {...product, quantity: 1}
+            const res = await axios.post("http://localhost:3000/api/shoppingcart", newProduct)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+export const fetchProducts = createAsyncThunk(
+    "shoppingCart/fetchProducts",
+    async ()=>{
+        try {
+            const response=await axios.get('http://localhost:3000/api/shoppingcart')
+            console.log(response.data)
+            return response.data;
+        } catch (err) {
+            console.log(err)
         }
     }
 )

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterSlice from "../component/container/counter/counterSlice";
-
+import fetchProductListSlice from "../component/container/counter/fetchProductList"
 import shoppingCartSlice from "../component/shoppingcart/ShoppingCartSlice";
 
 
@@ -9,7 +9,8 @@ export const store = configureStore(
     {
         reducer: {
             counter : counterSlice,
-            shoppingCart: shoppingCartSlice
+            shoppingCart: shoppingCartSlice,
+            fetchProductList: fetchProductListSlice
           },
     }
 )

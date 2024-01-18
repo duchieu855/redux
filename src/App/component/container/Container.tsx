@@ -1,53 +1,27 @@
 // import React from 'react'
 
-// import axios from "axios";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../typescript/hook";
-import { addToCart } from "../shoppingcart/ShoppingCartSlice";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../typescript/hook";
+import { addProduct } from "../shoppingcart/ShoppingCartSlice";
 import { incrementByAmount } from "./counter/counterSlice";
 import classNames from "classnames";
-import axios from "axios";
-
-interface StyleItemData {
-	id: number;
-	title: string;
-	thumbnailUrl: string;
-	price: number;
-	quantity: number;
-}
+import {
+	fetchProductList,
+	loadProductList,
+	updateProductList,
+} from "./counter/fetchProductList";
 
 const Container = () => {
-	const [dataProducts, setDataProducts] = useState<StyleItemData[]>([]);
-	console.log(dataProducts);
+	const dataProducts = useAppSelector((state) => state.fetchProductList);
+	let dispatch = useAppDispatch();
 
 	useEffect(() => {
-		(async () => {
-			try {
-				const res = await axios.get("http://localhost:3000/api/products/");
-
-				setDataProducts(res.data);
-			} catch (err) {
-				console.log(err);
-			}
-		})();
+		dispatch(fetchProductList());
 	}, []);
 
-	const handleClick = (id: number) => {
-		const indexProduct = dataProducts.findIndex((i) => i.id === id);
-		const quantity = dataProducts[indexProduct].quantity;
-		// console.log(quantity);
-		if (quantity > 0) {
-			dataProducts[indexProduct].quantity -= 1;
-			setDataProducts((preData) => {
-				// console.log([dataProducts, preData]);
-				return [...preData];
-			});
-		}
-	};
-	const dispatch = useAppDispatch();
 	return (
 		<div className="grid grid-flow-row grid-cols-6 gap-x-2 gap-y-4 w-[1200px] mx-auto">
-			{dataProducts.map((item) => (
+			{dataProducts?.map((item) => (
 				<div
 					key={item.id}
 					className="p-2 bg-orange-400 relative flex flex-col space-y-3 items-center rounded-lg"
@@ -74,9 +48,10 @@ const Container = () => {
 						onClick={() => {
 							if (item.quantity > 0) {
 								dispatch(incrementByAmount(1));
-								dispatch(addToCart({ ...item, quantity: 1 }));
+								dispatch(addProduct(item));
+								dispatch(updateProductList(item.id));
+								dispatch(loadProductList());
 							}
-							handleClick(item.id);
 						}}
 					>
 						{item.quantity > 0 ? "ADD" : "Sold Out"}

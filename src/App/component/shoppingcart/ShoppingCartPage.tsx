@@ -1,11 +1,19 @@
 // import React from 'react'
 
-import { useAppSelector } from "../../typescript/hook";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../typescript/hook";
+// import axios from "axios";
+import { fetchProducts } from "./ShoppingCartSlice";
 
 // type Props = {}
 
 const ShoppingCartPage = () => {
 	const dataProducts = useAppSelector((state) => state.shoppingCart);
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(fetchProducts());
+	}, []);
+
 	const total = dataProducts?.reduce(
 		(total, cur) => cur.price * cur.quantity + total,
 		0
