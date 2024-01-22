@@ -1,27 +1,37 @@
 // import React from 'react'
 
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../typescript/hook";
+// import { useEffect } from "react";
+// import { useAppDispatch, useAppSelector } from "../../typescript/hook";
+// import Skeleton from "react-loading-skeleton";
 import { addProduct } from "../shoppingcart/ShoppingCartSlice";
 import { incrementByAmount } from "./counter/counterSlice";
 import classNames from "classnames";
 import {
-	fetchProductList,
+	// fetchProductList,
 	loadProductList,
 	updateProductList,
 } from "./counter/fetchProductList";
+// import { useGetDataContainerQuery } from "./fetchDataProduct";
+// import { Fragment } from "react";
+import { useAppDispatch, useAppSelector } from "../../typescript/hook";
 
 const Container = () => {
-	const dataProducts = useAppSelector((state) => state.fetchProductList);
+	const data = useAppSelector((state) => state.fetchProductList);
 	let dispatch = useAppDispatch();
 
-	useEffect(() => {
-		dispatch(fetchProductList());
-	}, []);
+	// useEffect(() => {
+	// 	dispatch(fetchProductList());
+	// }, []);
+	// const { data, isLoading } = useGetDataContainerQuery([]);
 
 	return (
 		<div className="grid grid-flow-row grid-cols-6 gap-x-2 gap-y-4 w-[1200px] mx-auto">
-			{dataProducts?.map((item) => (
+			{/* {isLoading && (
+				<Fragment>
+					<Skeleton></Skeleton>
+				</Fragment>
+			)} */}
+			{data?.map((item) => (
 				<div
 					key={item.id}
 					className="p-2 bg-orange-400 relative flex flex-col space-y-3 items-center rounded-lg"

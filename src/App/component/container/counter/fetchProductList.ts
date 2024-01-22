@@ -33,8 +33,8 @@ export const productList = createSlice(
 export const fetchProductList = createAsyncThunk(
     "fetchProductList/fetchProductList",
     async ()=>{
-        const res = await axios.get("http://localhost:3000/api/products")
         try{
+            const res = await axios.get("http://localhost:3000/api/products")
             return res.data;
         }catch (err) {
             console.log(err)
@@ -44,8 +44,8 @@ export const fetchProductList = createAsyncThunk(
 export const loadProductList = createAsyncThunk(
     "fetchProductList/loadProductList",
     async ()=>{
-        const res = await axios.get("http://localhost:3000/api/products")
         try{
+            const res = await axios.get("http://localhost:3000/api/products")
             console.log("loadProductList",res)
             return res.data;
         }catch (err) {
